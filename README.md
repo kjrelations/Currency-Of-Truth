@@ -1,6 +1,6 @@
 # **Proof of Meaning: A Currency of Truth (v1.1.1)**
 
-![Meaning in Fractal Music](/images/Meaning in Fractal Music.png)
+![Meaning in Fractal Music](/images/Meaning_in_Fractal_Music.png)
  **Author:** Ah**Ø**ēe
 
 ------
