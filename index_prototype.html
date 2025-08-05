@@ -55,7 +55,7 @@
 <body>
     <div class="container">
 
-        <h1><strong>Proof of Meaning: A Currency of Truth (v1.1.2)</strong></h1>
+        <h1><strong>Proof of Meaning: A Currency of Truth (v1.1.1)</strong></h1>
         <p><img alt="Meaning in Fractal Music" src=".\images\Meaning_in_Fractal_Music.png">
          <strong>Author:</strong> Ah<strong>Ø</strong>ēe</p>
         <hr>
@@ -121,6 +121,93 @@
         <h2>Prototype Simulation</h2>
         <p>A demo of how distributed information in biological systems could reflect the principles of irretrievable truth via redundancy.</p>
         <p>In the github repository exists a prototype named information_seeding.py which recovers a message after generational seeding. <a href="information_seeding.py" download>Download Python Simulation Code</a></p>
+        <h3>DNA Seeding Simulation</h3>
+        <p>Enter a short message to simulate encoding into DNA and mutating over generations. You can then simulate recovery by majority consensus.</p>
+
+        <label for="message">Original Message:</label><br />
+        <textarea id="message">The future is encoded.</textarea><br />
+        <button onclick="runSimulation()">Run Simulation</button>
+
+        <div class="result" id="output"></div>
+        <div class="result" id="recovered"></div>
+
+        <script>
+          const DNA_CHARS = ['A', 'C', 'G', 'T'];
+          const BINARY_TO_DNA = { '00': 'A', '01': 'C', '10': 'G', '11': 'T' };
+          const DNA_TO_BINARY = { 'A': '00', 'C': '01', 'G': '10', 'T': '11' };
+        
+          function textToBinary(text) {
+            return text.split('')
+              .map(ch => ch.charCodeAt(0).toString(2).padStart(8, '0'))
+              .join('');
+          }
+        
+          function binaryToText(binStr) {
+            return binStr.match(/.{1,8}/g)
+              .map(byte => String.fromCharCode(parseInt(byte, 2)))
+              .join('');
+          }
+        
+          function binaryToDNA(binary) {
+            return binary.match(/.{1,2}/g).map(bits => BINARY_TO_DNA[bits]).join('');
+          }
+        
+          function dnaToBinary(dna) {
+            return dna.split('').map(base => DNA_TO_BINARY[base]).join('');
+          }
+        
+          function mutateDNA(dna, rate = 0.1) {
+            return dna.split('').map(base => {
+              return Math.random() < rate ? DNA_CHARS[Math.floor(Math.random() * 4)] : base;
+            }).join('');
+          }
+        
+          function generateGenerations(dna, count = 20, mutationRate = 0.1) {
+            const generations = [];
+            for (let i = 0; i < count; i++) {
+              dna = mutateDNA(dna, mutationRate);
+              generations.push(dna);
+            }
+            return generations;
+          }
+        
+          function recoverDNA(generations) {
+            const length = generations[0].length;
+            let recovered = '';
+            for (let i = 0; i < length; i++) {
+              const count = { A: 0, C: 0, G: 0, T: 0 };
+              for (const g of generations) {
+                count[g[i]]++;
+              }
+              recovered += Object.entries(count).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+            }
+            return recovered;
+          }
+        
+          function runSimulation() {
+            const text = document.getElementById('message').value.trim();
+            const binary = textToBinary(text);
+            const dna = binaryToDNA(binary);
+            const generations = generateGenerations(dna);
+            const recoveredDNA = recoverDNA(generations);
+            const recoveredBinary = dnaToBinary(recoveredDNA);
+            const recoveredText = binaryToText(recoveredBinary);
+        
+            const output = `
+        Original Message: ${text}
+        Binary: ${binary}
+        DNA: ${dna}
+        
+        --- Generations ---
+        ${generations.join('\n')}
+        
+        Recovered DNA: ${recoveredDNA}
+        Recovered Binary: ${recoveredBinary}`;
+        
+            document.getElementById('output').innerText = output;
+            document.getElementById('recovered').innerText = `Recovered Message: ${recoveredText}`;
+          }
+        </script>
         </blockquote>
         </li>
         </ul>
@@ -198,7 +285,7 @@
         <p><img alt="AhOee" src=".\images\AhOee.PNG">
          [Ah | o | ee]
          A pseudonym for the convergence of logic, insight, and systems
-         Version 1.1.2 — August 2025</p>
+         Version 1.1.1 — August 2025</p>
         <p>In the spirit of formalizing problems we conjecture a proof of problem system where problems are formalized in a variety of forms. The following is an attempt at reiterating the above in formal verifiable form, a speculative philosophical white paper that may be collaborated on.</p>
         <p><strong>Title:</strong> <em>The Currency of Truth: Toward a Universal System of Value Through AI, Cryptography, and Epistemic Work</em></p>
         <p><strong>Author:</strong> Ah<strong>Ø</strong>ĕe
