@@ -1,6 +1,6 @@
 # **Proof of Meaning: A Currency of Truth (v1.1.1)**
 
-![Meaning in Fractal Music](.\images\Meaning in Fractal Music.png)
+![Meaning in Fractal Music](/images/Meaning in Fractal Music.png)
  **Author:** Ah**Ø**ēe
 
 ------
@@ -173,7 +173,7 @@ In such a world, meaning is not a side effect of consciousness—it is the **cur
 
 ------
 
-![AhOee](.\images\AhOee.PNG)
+![AhOee](/images/AhOee.PNG)
  [Ah | o | ee]
  A pseudonym for the convergence of logic, insight, and systems
  Version 1.1.1 — August 2025
