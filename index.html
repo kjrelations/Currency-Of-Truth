@@ -6,7 +6,7 @@
   <title>The Currency of Truth</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+  body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
     letter-spacing: 0.3px;
@@ -22,6 +22,11 @@
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     border-radius: 8px;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+    margin: 1rem auto;
   }
   h1, h2 {
     line-height: 1.3;
@@ -51,22 +56,71 @@
   button:hover {
     background-color: #1e40af;
   }
+  .result-section {
+    margin-top: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #374151;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.3rem;
+    display: none;
+  }
   .result {
     white-space: pre-wrap;
     background-color: #f3f4f6;
     padding: 1rem;
-    margin-top: 1rem;
-    border-radius: 4px;
+    margin-top: 0.5rem;
+    border-radius: 6px;
     font-family: monospace;
     overflow-x: auto;
     word-wrap: break-word;
+    line-height: 1.3;
+    font-size: 0.9rem;
   }
+  .samples-container {
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 8px; /* prevent content cut-off from scrollbar */
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #fafafa;
+    margin-top: 0.5rem;
+  }
+  /* Individual sample entries */
+  .sample-entry {
+    margin-bottom: 0.6rem;
+    padding: 0.4rem 0.6rem;
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #e0e7ff;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.1);
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+  }
+  .sample-dna {
+    font-family: monospace;
+    color: #1e40af;
+    word-break: break-all;
+    margin-bottom: 0.15rem;
+  }
+  .sample-message {
+    font-family: 'Inter', sans-serif;
+    color: #374151;
+    font-style: italic;
+    user-select: text;
+  }
+  .base-A { color: #16a34a; font-weight: 600; } /* Green */
+  .base-C { color: #2563eb; font-weight: 600; } /* Blue */
+  .base-G { color: #ca8a04; font-weight: 600; } /* Yellow-Orange */
+  .base-T { color: #dc2626; font-weight: 600; } /* Red */
   </style>
 </head>
 <body>
     <div class="container">
 
-        <h1><strong>Proof of Meaning: A Currency of Truth (v1.2.1)</strong></h1>
+        <h1><strong>Proof of Meaning: A Currency of Truth (v1.2.2)</strong></h1>
         <p><img alt="Meaning in Fractal Music" src=".\images\Meaning_in_Fractal_Music.png">
          <strong>Author:</strong> Ah<strong>Ø</strong>ēe</p>
         <hr>
@@ -133,30 +187,48 @@
         <p>A demo of how distributed information in biological systems could reflect the principles of irretrievable truth via redundancy.</p>
         <p>In the github repository exists a prototype named information_seeding.py which recovers a message after generational seeding. <a href="information_seeding.py" download>Download Python Simulation Code</a></p>
         <h3>DNA Seeding Simulation</h3>
-        <p>Enter a short message to simulate encoding into DNA and mutating over generations. You can then simulate recovery by majority consensus. Notice how the full message is unrecoverable individually.</p>
+        <p>Enter a short message to simulate encoding into DNA and mutating over 10 generations for 100 seeds. You can then simulate recovery by majority consensus. Notice how the full message is unrecoverable individually.</p>
 
         <label for="message">Original Message:</label><br />
         <textarea id="message">The future is encoded.</textarea><br />
         <button onclick="runSimulation()">Run Simulation</button>
 
+        <h2 class="result-section">Original Message & DNA</h2>
         <div class="result" id="original"></div>
+
+        <h2 class="result-section">Recovered Message & DNA</h2>
         <div class="result" id="recovered"></div>
-        <div id="samples"></div>
+        
+        <h2 class="result-section">Sampled DNA & Messages (50/100 samples)</h2>
+        <div class="samples-container" id="samples"></div>
 
         <script>
-          const DNA_CHARS = ['A', 'C', 'G', 'T'];
-          const BINARY_TO_DNA = { '00': 'A', '01': 'C', '10': 'G', '11': 'T' };
-          const DNA_TO_BINARY = { 'A': '00', 'C': '01', 'G': '10', 'T': '11' };
-        
+          const BINARY_TO_DNA = {
+            '00': 'A',
+            '01': 'C',
+            '10': 'G',
+            '11': 'T'
+          };
+
+          const DNA_TO_BINARY = {
+            'A': '00',
+            'C': '01',
+            'G': '10',
+            'T': '11'
+          };
+
           function encodeToDNA(message) {
-            return message
+            const binaryString = message
               .split('')
               .map(c => c.charCodeAt(0).toString(2).padStart(8, '0'))
-              .join('')
-              .replace(/00/g, 'A')
-              .replace(/01/g, 'C')
-              .replace(/10/g, 'G')
-              .replace(/11/g, 'T');
+              .join('');
+
+            let dna = '';
+            for (let i = 0; i < binaryString.length; i += 2) {
+              const pair = binaryString.slice(i, i + 2);
+              dna += BINARY_TO_DNA[pair];
+            }
+            return dna;
           }
 
           // Simulate DNA mutation
@@ -172,11 +244,10 @@
 
           // Decode DNA back to message
           function decodeDNA(dna) {
-            const binary = dna
-              .replace(/A/g, '00')
-              .replace(/C/g, '01')
-              .replace(/G/g, '10')
-              .replace(/T/g, '11');
+            let binary = '';
+            for (let base of dna) {
+              binary += DNA_TO_BINARY[base];
+            }
             let message = '';
             for (let i = 0; i < binary.length; i += 8) {
               message += String.fromCharCode(parseInt(binary.slice(i, i + 8), 2));
@@ -224,8 +295,26 @@
                           .replace(/'/g, "&#39;");
           }
 
+          function colorizeDNA(dna) {
+            return dna.split('').map(base => {
+              const cls = {
+                'A': 'base-A',
+                'C': 'base-C',
+                'G': 'base-G',
+                'T': 'base-T'
+              }[base] || '';
+              return `<span class="${cls}">${base}</span>`;
+            }).join('');
+          }
+
           function runSimulation() {
             const text = document.getElementById('message').value.trim();
+            if (!text) return alert('Please enter a message.');
+
+            document.querySelectorAll('.result-section').forEach(el => {
+              el.style.display = 'block';
+            });
+
             const generations = simulateGenerations(text, 10, 100, 0.02);
             const lastGen = generations[generations.length - 1];
             const sample = [];
@@ -235,19 +324,35 @@
             }
             indices.forEach(i => sample.push({dna: lastGen[i], message: decodeDNA(lastGen[i])}));
             const recovered = recoverMessage(lastGen);
-            const original = `
-Original Message: ${text}
-DNA: ${generations[0][0]}
-            `
-            const recoveredMessageAndDNA = `
-Recovered Message: ${recovered['message']}
-Recovered DNA: ${recovered['dna']}`
-            const samples = `
-<h3>--- 50/100 Sampled Last Generations ---</h3>
-${sample.map((s, idx) => `<div class='result'><strong>${idx + 1}.</strong> DNA: ${s.dna} | Message: ${escapeHtml(s.message)}</div>`).join('\n')}`;
-            document.getElementById('original').innerText = original;
-            document.getElementById('recovered').innerText = recoveredMessageAndDNA;
-            document.getElementById('samples').innerHTML = samples;
+            
+            const originalDNAColored = colorizeDNA(generations[0][0]);
+            document.getElementById('original').innerHTML = `
+Original Message: <strong>${text}</strong><br />
+DNA: <code>${originalDNAColored}</code>
+            `;
+
+            const recoveredDNAColored = colorizeDNA(recovered.dna);
+            document.getElementById('recovered').innerHTML = `
+Recovered Message: <strong>${recovered.message}</strong><br />
+Recovered DNA: <code>${recoveredDNAColored}</code>
+            `;
+
+            const samplesContainer = document.getElementById('samples');
+            samplesContainer.innerHTML = ''; // clear previous
+            sample.forEach((s, idx) => {
+              const sampleDiv = document.createElement('div');
+              sampleDiv.className = 'sample-entry';
+
+              // Colorize DNA bases
+              const coloredDNA = colorizeDNA(s.dna);
+
+              sampleDiv.innerHTML = `
+                <div><strong>Sample ${idx + 1}:</strong></div>
+                <div class="sample-dna">${coloredDNA}</div>
+                <div class="sample-message">${escapeHtml(s.message)}</div>
+              `;
+              samplesContainer.appendChild(sampleDiv);
+            });
           }
         </script>
         </blockquote>
@@ -327,7 +432,7 @@ ${sample.map((s, idx) => `<div class='result'><strong>${idx + 1}.</strong> DNA: 
         <p><img alt="AhOee" src=".\images\AhOee.PNG">
          [Ah | o | ee]
          A pseudonym for the convergence of logic, insight, and systems
-         Version 1.2.1 — August 2025</p>
+         Version 1.2.2 — August 2025</p>
         <p>In the spirit of formalizing problems we conjecture a proof of problem system where problems are formalized in a variety of forms. The following is an attempt at reiterating the above in formal verifiable form, a speculative philosophical white paper that may be collaborated on.</p>
         <p><strong>Title:</strong> <em>The Currency of Truth: Toward a Universal System of Value Through AI, Cryptography, and Epistemic Work</em></p>
         <p><strong>Author:</strong> Ah<strong>Ø</strong>ĕe

@@ -1,4 +1,4 @@
-# **Proof of Meaning: A Currency of Truth (v1.2.1)**
+# **Proof of Meaning: A Currency of Truth (v1.2.2)**
 
 ![Meaning in Fractal Music](/images/Meaning_in_Fractal_Music.png)
  **Author:** Ah**Ø**ēe
@@ -176,7 +176,7 @@ In such a world, meaning is not a side effect of consciousness—it is the **cur
 ![AhOee](/images/AhOee.PNG)
  [Ah | o | ee]
  A pseudonym for the convergence of logic, insight, and systems
- Version 1.2.1 — August 2025
+ Version 1.2.2 — August 2025
 
 In the spirit of formalizing problems we conjecture a proof of problem system where problems are formalized in a variety of forms. The following is an attempt at reiterating the above in formal verifiable form, a speculative philosophical white paper that may be collaborated on.
 
