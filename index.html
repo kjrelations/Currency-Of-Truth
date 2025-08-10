@@ -50,12 +50,17 @@
       background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
+    .result {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: monospace;
+    }
   </style>
 </head>
 <body>
     <div class="container">
 
-        <h1><strong>Proof of Meaning: A Currency of Truth (v1.1.2)</strong></h1>
+        <h1><strong>Proof of Meaning: A Currency of Truth (v1.2.0)</strong></h1>
         <p><img alt="Meaning in Fractal Music" src=".\images\Meaning_in_Fractal_Music.png">
          <strong>Author:</strong> Ah<strong>Ø</strong>ēe</p>
         <hr>
@@ -121,6 +126,116 @@
         <h2>Prototype Simulation</h2>
         <p>A demo of how distributed information in biological systems could reflect the principles of irretrievable truth via redundancy.</p>
         <p>In the github repository exists a prototype named information_seeding.py which recovers a message after generational seeding. <a href="information_seeding.py" download>Download Python Simulation Code</a></p>
+        <h3>DNA Seeding Simulation</h3>
+        <p>Enter a short message to simulate encoding into DNA and mutating over generations. You can then simulate recovery by majority consensus. Notice how the full message is unrecoverable individually.</p>
+
+        <label for="message">Original Message:</label><br />
+        <textarea id="message">The future is encoded.</textarea><br />
+        <button onclick="runSimulation()">Run Simulation</button>
+
+        <div class="result" id="original"></div>
+        <div class="result" id="recovered"></div>
+        <div class="result" id="samples"></div>
+
+        <script>
+          const DNA_CHARS = ['A', 'C', 'G', 'T'];
+          const BINARY_TO_DNA = { '00': 'A', '01': 'C', '10': 'G', '11': 'T' };
+          const DNA_TO_BINARY = { 'A': '00', 'C': '01', 'G': '10', 'T': '11' };
+        
+          function encodeToDNA(message) {
+            return message
+              .split('')
+              .map(c => c.charCodeAt(0).toString(2).padStart(8, '0'))
+              .join('')
+              .replace(/00/g, 'A')
+              .replace(/01/g, 'C')
+              .replace(/10/g, 'G')
+              .replace(/11/g, 'T');
+          }
+
+          // Simulate DNA mutation
+          function mutateDNA(dna, mutationRate = 0.01) {
+            const bases = ['A', 'C', 'G', 'T'];
+            return dna.split('').map(base => {
+              if (Math.random() < mutationRate) {
+                return bases.filter(b => b !== base)[Math.floor(Math.random() * 3)]; // Chooses one of the three bases that are not the same 
+              }
+              return base;
+            }).join('');
+          }
+
+          // Decode DNA back to message
+          function decodeDNA(dna) {
+            const binary = dna
+              .replace(/A/g, '00')
+              .replace(/C/g, '01')
+              .replace(/G/g, '10')
+              .replace(/T/g, '11');
+            let message = '';
+            for (let i = 0; i < binary.length; i += 8) {
+              message += String.fromCharCode(parseInt(binary.slice(i, i + 8), 2));
+            }
+            return message;
+          }
+
+          // Simulate generations of seeds
+          function simulateGenerations(message, generations = 5, seedsPerGeneration = 50, mutationRate = 0.01) {
+            const originalDNA = encodeToDNA(message);
+            let population = Array(seedsPerGeneration).fill(originalDNA);
+            const allGenerations = [population];
+
+            for (let g = 0; g < generations; g++) {
+              const newPopulation = population.map(seed => mutateDNA(seed, mutationRate));
+              allGenerations.push(newPopulation);
+              population = newPopulation;
+            }
+            return allGenerations;
+          }
+
+          // Recover message from DNA population
+          function recoverMessage(dnaPopulation) {
+            let sequenceLength = dnaPopulation[0].length;
+            let recoveredDNA = '';
+            for (let i = 0; i < sequenceLength; i++) {
+              const basesAtI = dnaPopulation.map(dna => dna[i]);
+              const counts = {};
+              for (const base of basesAtI) {
+                counts[base] = (counts[base] || 0) + 1;
+              }
+              recoveredDNA += Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+            }
+            return {
+              dna: recoveredDNA,
+              message: decodeDNA(recoveredDNA)
+            };
+          }
+
+          function runSimulation() {
+            const text = document.getElementById('message').value.trim();
+            const generations = simulateGenerations(text, 10, 100, 0.02);
+            const lastGen = generations[generations.length - 1];
+            const sample = [];
+            const indices = new Set();
+            while (indices.size < 50) {
+              indices.add(Math.floor(Math.random() * lastGen.length));
+            }
+            indices.forEach(i => sample.push({dna: lastGen[i], message: decodeDNA(lastGen[i])}));
+            const recovered = recoverMessage(lastGen);
+            const original = `
+            Original Message: ${text}
+            DNA: ${generations[0][0]}
+            `
+            const recoveredMessageAndDNA = `
+            Recovered Message: ${recovered['message']}
+            Recovered DNA: ${recovered['dna']}`
+            const samples = `
+        --- 50/100 Sampled Last Generations ---
+        ${sample.map((s, idx) => `${idx + 1}. DNA: ${s.dna} | Message: ${s.message}`).join('\n')}`;
+            document.getElementById('original').innerText = original;
+            document.getElementById('recovered').innerText = recoveredMessageAndDNA;
+            document.getElementById('samples').innerText = samples;
+          }
+        </script>
         </blockquote>
         </li>
         </ul>
@@ -132,7 +247,7 @@
         <p>Ownership is replaced with <strong>contribution</strong>.</p>
         <hr>
         <h2><strong>5. Addressing Speculative Noise and Irreducibility</strong></h2>
-        <p>Wolfram’s principle of <strong>computational irreducibility</strong> suggests that some truths cannot be predicted—only computed step-by-step; a limit of predictive power based on the complexity of the problem and the length of it's solution reflecting problems such as P=?NP which may playfully be thought as literally as problem =? no problem = solution. This makes valuation of outcomes difficult in advance.</p>
+        <p>Wolfram’s principle of <strong>computational irreducibility</strong> suggests that some truths cannot be predicted—only computed step-by-step; a limit of predictive power based on the complexity of the problem and the length of it's solution reflecting problems such as P=?NP which perhaps be playfully thought as literally as problem =? no problem = solution (The author is aware of the summary of the problem). This makes valuation of outcomes difficult in advance.</p>
         <p><strong>Solution: Progressive Epistemic Valuation</strong></p>
         <ul>
         <li>Rewards are <strong>distributed over time</strong> as utility unfolds.</li>
@@ -198,7 +313,7 @@
         <p><img alt="AhOee" src=".\images\AhOee.PNG">
          [Ah | o | ee]
          A pseudonym for the convergence of logic, insight, and systems
-         Version 1.1.2 — August 2025</p>
+         Version 1.2.0 — August 2025</p>
         <p>In the spirit of formalizing problems we conjecture a proof of problem system where problems are formalized in a variety of forms. The following is an attempt at reiterating the above in formal verifiable form, a speculative philosophical white paper that may be collaborated on.</p>
         <p><strong>Title:</strong> <em>The Currency of Truth: Toward a Universal System of Value Through AI, Cryptography, and Epistemic Work</em></p>
         <p><strong>Author:</strong> Ah<strong>Ø</strong>ĕe

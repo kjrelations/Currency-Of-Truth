@@ -1,4 +1,4 @@
-# **Proof of Meaning: A Currency of Truth (v1.1.2)**
+# **Proof of Meaning: A Currency of Truth (v1.2.0)**
 
 ![Meaning in Fractal Music](/images/Meaning_in_Fractal_Music.png)
  **Author:** Ah**Ø**ēe
@@ -93,7 +93,7 @@ Ownership is replaced with **contribution**.
 
 ## **5. Addressing Speculative Noise and Irreducibility**
 
-Wolfram’s principle of **computational irreducibility** suggests that some truths cannot be predicted—only computed step-by-step; a limit of predictive power based on the complexity of the problem and the length of it's solution reflecting problems such as P=?NP which may playfully be thought as literally as problem =? no problem = solution. This makes valuation of outcomes difficult in advance.
+Wolfram’s principle of **computational irreducibility** suggests that some truths cannot be predicted—only computed step-by-step; a limit of predictive power based on the complexity of the problem and the length of it's solution reflecting problems such as P=?NP which perhaps be playfully thought as literally as problem =? no problem = solution (The author is aware of the summary of the problem). This makes valuation of outcomes difficult in advance.
 
 **Solution: Progressive Epistemic Valuation**
 
@@ -176,7 +176,7 @@ In such a world, meaning is not a side effect of consciousness—it is the **cur
 ![AhOee](/images/AhOee.PNG)
  [Ah | o | ee]
  A pseudonym for the convergence of logic, insight, and systems
- Version 1.1.2 — August 2025
+ Version 1.2.0 — August 2025
 
 In the spirit of formalizing problems we conjecture a proof of problem system where problems are formalized in a variety of forms. The following is an attempt at reiterating the above in formal verifiable form, a speculative philosophical white paper that may be collaborated on.
 
