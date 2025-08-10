@@ -57,14 +57,10 @@
     background-color: #1e40af;
   }
   .result-section {
-    margin-top: 1.8rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #374151;
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 0.3rem;
     display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
   }
   .result {
     white-space: pre-wrap;
@@ -87,18 +83,6 @@
     background-color: #fafafa;
     margin-top: 0.5rem;
   }
-  /* Individual sample entries */
-  .sample-entry {
-    margin-bottom: 0.6rem;
-    padding: 0.4rem 0.6rem;
-    background-color: #ffffff;
-    border-radius: 4px;
-    border: 1px solid #e0e7ff;
-    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.1);
-    display: flex;
-    flex-direction: column;
-    font-size: 0.9rem;
-  }
   .sample-dna {
     font-family: monospace;
     color: #1e40af;
@@ -115,12 +99,69 @@
   .base-C { color: #2563eb; font-weight: 600; } /* Blue */
   .base-G { color: #ca8a04; font-weight: 600; } /* Yellow-Orange */
   .base-T { color: #dc2626; font-weight: 600; } /* Red */
+  #original {
+    background-color: #e0f7fa; /* Light cyan */
+    color: #006064;
+    font-family: monospace;
+    white-space: pre-wrap;
+  }
+  #recovered {
+    background-color: #f1f8e9; /* Light green */
+    color: #33691e;
+    font-family: monospace;
+    white-space: pre-wrap;
+  }
+  #samples {
+    background-color: #fff3e0; /* Light orange */
+    color: #e65100;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    font-family: monospace;
+    white-space: pre-wrap;
+    max-width: 100%;
+  }
+  .sample-item {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  .sample-item:hover {
+    background-color: #ffecb3; /* Highlight on hover */
+    cursor: pointer;
+  }
+  .result-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+    color: #374151;
+  }
+  .note {
+    background: #eef6f9;
+    border-left: 4px solid #4ca3dd;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    font-style: italic;
+    color: #334d6e;
+    border-radius: 4px;
+  }
+  .diagram {
+    background: #fff8dc;
+    border: 1px solid #e6d8a7;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    font-family: monospace;
+    white-space: pre-wrap;
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
   </style>
 </head>
 <body>
     <div class="container">
 
-        <h1><strong>Proof of Meaning: A Currency of Truth (v1.2.2)</strong></h1>
+        <h1><strong>Proof of Meaning: A Currency of Truth (v1.2.3)</strong></h1>
         <p><img alt="Meaning in Fractal Music" src=".\images\Meaning_in_Fractal_Music.png">
          <strong>Author:</strong> Ah<strong>Ø</strong>ēe</p>
         <hr>
@@ -180,8 +221,6 @@
         <li>
         <p>The <strong>result is stored in a form that is retrievable but not ownable</strong>—symbolized by a black hole. That is, it exists, it contributes, but it cannot be hoarded.</p>
         </li>
-        <li>
-        <blockquote>
         <p>A simple example may be to seed results into plant seed DNA such that upon reproduction the information mutates into an irretrievable form individually but becomes redundant and accessible on mass.</p>
         <h2>Prototype Simulation</h2>
         <p>A demo of how distributed information in biological systems could reflect the principles of irretrievable truth via redundancy.</p>
@@ -189,18 +228,29 @@
         <h3>DNA Seeding Simulation</h3>
         <p>Enter a short message to simulate encoding into DNA and mutating over 10 generations for 100 seeds. You can then simulate recovery by majority consensus. Notice how the full message is unrecoverable individually.</p>
 
+        <div class="note">
+          <strong>Analogy:</strong> Think of the DNA sequences as copies of an ancient manuscript with small typos. By comparing many copies, the original text can be reconstructed.
+        </div>
+        <img alt="DNA Consensus" src=".\images\DNA_Consensus.png">
+
         <label for="message">Original Message:</label><br />
         <textarea id="message">The future is encoded.</textarea><br />
         <button onclick="runSimulation()">Run Simulation</button>
 
-        <h2 class="result-section">Original Message & DNA</h2>
-        <div class="result" id="original"></div>
-
-        <h2 class="result-section">Recovered Message & DNA</h2>
-        <div class="result" id="recovered"></div>
+        <div class="result-section" id="original-section">
+          <div class="result-header">Original DNA</div>
+          <div class="result" id="original"></div>
+        </div>
         
-        <h2 class="result-section">Sampled DNA & Messages (50/100 samples)</h2>
-        <div class="samples-container" id="samples"></div>
+        <div class="result-section" id="recovered-section">
+          <div class="result-header">Recovered Message and DNA</div>
+          <div class="result" id="recovered"></div>
+        </div>
+        
+        <div class="result-section" id="samples-section">
+          <div class="result-header">Sampled DNA & Messages (50/100 samples)</div>
+          <div class="result" id="samples"></div>
+        </div>
 
         <script>
           const BINARY_TO_DNA = {
@@ -341,7 +391,7 @@ Recovered DNA: <code>${recoveredDNAColored}</code>
             samplesContainer.innerHTML = ''; // clear previous
             sample.forEach((s, idx) => {
               const sampleDiv = document.createElement('div');
-              sampleDiv.className = 'sample-entry';
+              sampleDiv.className = 'sample-item';
 
               // Colorize DNA bases
               const coloredDNA = colorizeDNA(s.dna);
@@ -355,8 +405,6 @@ Recovered DNA: <code>${recoveredDNAColored}</code>
             });
           }
         </script>
-        </blockquote>
-        </li>
         </ul>
         <p>This mirrors physical ideas:</p>
         <ul>
@@ -432,7 +480,7 @@ Recovered DNA: <code>${recoveredDNAColored}</code>
         <p><img alt="AhOee" src=".\images\AhOee.PNG">
          [Ah | o | ee]
          A pseudonym for the convergence of logic, insight, and systems
-         Version 1.2.2 — August 2025</p>
+         Version 1.2.3 — August 2025</p>
         <p>In the spirit of formalizing problems we conjecture a proof of problem system where problems are formalized in a variety of forms. The following is an attempt at reiterating the above in formal verifiable form, a speculative philosophical white paper that may be collaborated on.</p>
         <p><strong>Title:</strong> <em>The Currency of Truth: Toward a Universal System of Value Through AI, Cryptography, and Epistemic Work</em></p>
         <p><strong>Author:</strong> Ah<strong>Ø</strong>ĕe

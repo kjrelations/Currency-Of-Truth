@@ -1,4 +1,4 @@
-# **Proof of Meaning: A Currency of Truth (v1.2.2)**
+# **Proof of Meaning: A Currency of Truth (v1.2.3)**
 
 ![Meaning in Fractal Music](/images/Meaning_in_Fractal_Music.png)
  **Author:** Ah**Ø**ēe
@@ -74,13 +74,17 @@ In this model, **no agent owns the truth**. Instead, once a problem is solved an
 
 - The **result is stored in a form that is retrievable but not ownable**—symbolized by a black hole. That is, it exists, it contributes, but it cannot be hoarded.
 
-  - > A simple example may be to seed results into plant seed DNA such that upon reproduction the information mutates into an irretrievable form individually but becomes redundant and accessible on mass.
-    >
-    > ## Prototype Simulation
-    >
-    > A demo of how distributed information in biological systems could reflect the principles of irretrievable truth via redundancy.
-    >
-    > In the github repository exists a prototype named information_seeding.py which recovers a message after generational seeding.
+  A simple example may be to seed results into plant seed DNA such that upon reproduction the information mutates into an irretrievable form individually but becomes redundant and accessible on mass.
+  
+  ## Prototype Simulation
+  
+  A demo of how distributed information in biological systems could reflect the principles of irretrievable truth via redundancy.
+  
+  In the github repository exists a prototype named information_seeding.py which recovers a message after generational seeding.
+  
+  > **Analogy:** Think of the DNA sequences as copies of an ancient manuscript with small typos. By comparing many copies, the original text can be reconstructed.
+  
+  ![DNA_Consensus](.\images\DNA_Consensus.png)
 
 This mirrors physical ideas:
 
@@ -176,7 +180,7 @@ In such a world, meaning is not a side effect of consciousness—it is the **cur
 ![AhOee](/images/AhOee.PNG)
  [Ah | o | ee]
  A pseudonym for the convergence of logic, insight, and systems
- Version 1.2.2 — August 2025
+ Version 1.2.3 — August 2025
 
 In the spirit of formalizing problems we conjecture a proof of problem system where problems are formalized in a variety of forms. The following is an attempt at reiterating the above in formal verifiable form, a speculative philosophical white paper that may be collaborated on.
 
