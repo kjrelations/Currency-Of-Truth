@@ -74,7 +74,7 @@ In this model, **no agent owns the truth**. Instead, once a problem is solved an
 
 - The **result is stored in a form that is retrievable but not ownable**—symbolized by a black hole. That is, it exists, it contributes, but it cannot be hoarded.
 
-  A simple example may be to seed results into plant seed DNA such that upon reproduction the information mutates into an irretrievable form individually but becomes redundant and accessible on mass.
+  A simple example may be to seed results into plant seed DNA such that upon reproduction the information mutates into an irretrievable form individually but becomes redundant and accessible en-masse.
   
   ## Prototype Simulation
   
@@ -97,7 +97,7 @@ Ownership is replaced with **contribution**.
 
 ## **5. Addressing Speculative Noise and Irreducibility**
 
-Wolfram’s principle of **computational irreducibility** suggests that some truths cannot be predicted—only computed step-by-step; a limit of predictive power based on the complexity of the problem and the length of it's solution reflecting problems such as P=?NP which perhaps be playfully thought as literally as problem =? no problem = solution (The author is aware of the summary of the problem). This makes valuation of outcomes difficult in advance.
+Wolfram’s principle of **computational irreducibility** suggests that some truths cannot be predicted—only computed step-by-step; a limit of predictive power based on the complexity of the problem and the length of it's solution reflecting problems such as P=?NP. This makes valuation of outcomes difficult in advance.
 
 **Solution: Progressive Epistemic Valuation**
 
